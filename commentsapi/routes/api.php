@@ -18,10 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('API')->name('.api')->group(function() {
-    Route::prefix('/posting')->group(function(){
-        
-        Route::get('/', 'ProductController@index')->name('index_products');
-        Route::get('/{id}', 'ProductController@show')->name('single_products');
-        Route::post('/', 'ProductController@store')->name('store_products');
+    Route::prefix('/comments')->group(function(){
+        Route::post('/', 'CommentsRestController@create')->name('create_comment');
+        Route::get('/', 'CommentsRestController@index')->name('index_products');
+    
     }); 
 });
