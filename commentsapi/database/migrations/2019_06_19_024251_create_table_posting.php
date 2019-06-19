@@ -16,7 +16,8 @@ class CreateTablePosting extends Migration
         Schema::create('posting', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->string('type', 80);
+            $table->bigInteger('type_id')->unsigned();
+            $table->foreign('type_id')->references('id')->on('post_types');
             $table->text('content');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
