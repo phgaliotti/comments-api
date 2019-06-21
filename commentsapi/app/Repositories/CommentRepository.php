@@ -25,8 +25,8 @@ class CommentRepository
 
 	
 	public function getLastMinuteCommentsByUserId ($id) {
-		$array = DB::select(DB::raw("select TIMESTAMPDIFF(MINUTE, created_at, NOW()) from comments where TIMESTAMPDIFF(MINUTE, created_at, NOW()) <= 1 and user_id = :id"), $id);
-		Log::info($array);
+		$array = DB::select("select * from comments where TIMESTAMPDIFF(MINUTE, created_at, NOW()) <= 1 and user_id = '$id'");
+		Log::info("getLastMinuteCommentsByUserId -> " . count($array));
 
 		return $array;
 		/*return $this->comment->where('user_id', $id)

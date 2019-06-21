@@ -20,8 +20,7 @@ class CommentsRestController extends Controller
 
     public function create(Request $request) {
         $commentData = $request->all();
-        $this->createCommentsUseCase->execute($commentData);
-        return response()->json(['msg' => 'Comentário registrado com sucesso'], 201);
+        return $this->createCommentsUseCase->execute($commentData);
     }
 
     public function list(Request $request) {

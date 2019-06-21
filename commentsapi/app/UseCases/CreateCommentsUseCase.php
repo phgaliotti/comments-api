@@ -18,7 +18,8 @@ class CreateCommentsUseCase
     public function execute($comment) {
         $user_id = Arr::get($comment, 'user_id');
         $lastCommentsByUserId = $this->commentsService->getLastMinuteCommentsByUserId($user_id);
-        if ($lastCommentsByUserId > 10) {
+        Log::info("lastCommentsByUserId - " . count($lastCommentsByUserId));
+        if (count($lastCommentsByUserId) > 10) {
             return response()->json(['msg' => 'Limite de comentários por minuto excedido. Por favor, tente novamente mais tarde'], 429);
         }
 
