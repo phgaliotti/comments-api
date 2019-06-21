@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\CommentRepository;
+use Illuminate\Support\Facades\Log;
 
 class CommentsService
 {
@@ -14,8 +15,7 @@ class CommentsService
     }
     
     public function create($comment) {
-        $this->commentRepository->new($comment);
-        // retornar objeto criado
+        return $this->commentRepository->new($comment); 
     }
 
     public function findAll($pageSize) {
