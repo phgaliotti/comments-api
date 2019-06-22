@@ -14,6 +14,6 @@ class RetrieveCommentsUseCase
     }
     
     public function execute($pageSize) {
-        $this->commentsService->findAll($pageSize);
+        return response()->json(['data' => $this->commentsService->findAll($pageSize)]);
     }
 }

@@ -31,13 +31,11 @@ class CreateCommentsUseCase
 
         $posting_id = Arr::get($comment, 'posting_id');
         $posting = $this->postingService->findById($posting_id);
-        // se o dono da postagem não for assinante e o dono do comentário tbm não for assinante erro
         if (!$this->validateUserCanComment($commentingUser, $posting)){
             return response()->json(['msg' => 'Olá, ' . $commentingUser->name .', você precisa ser assinante para comentar nessa postagem'], 403);
         }
 
         $newComment = $this->commentsService->create($comment);
-        Log::info("vai notificar");
         $this->commentsService->notifyOwnerPosting($commentingUser, $posting);
         return response()->json($newComment, 201);
     }

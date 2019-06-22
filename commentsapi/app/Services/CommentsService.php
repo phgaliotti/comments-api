@@ -23,7 +23,7 @@ class CommentsService
         if (empty($pageSize)){
             $pageSize = 10;
         }
-
+        
         return $this->commentRepository->findAll($pageSize);
     }
 

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Comment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CommentRepository 
 {
@@ -19,7 +20,9 @@ class CommentRepository
     }
 
 	public function findAll($pageSize) {
-		return $this->comment->paginate($pageSize);
+		return $this->comment
+			->orderBy('created_at', 'desc')
+			->paginate($pageSize);
 	}    
 
 	

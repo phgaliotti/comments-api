@@ -25,6 +25,6 @@ class CommentsRestController extends Controller
 
     public function list(Request $request) {
         $pageSize = $request->input('pageSize');
-    	return $this->retrieveCommentsUseCase->execute($pageSize);
+        return $this->retrieveCommentsUseCase->execute($pageSize);
     }
 }
