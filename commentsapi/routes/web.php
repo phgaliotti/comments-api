@@ -22,8 +22,8 @@ $router->group(['prefix' => 'api/v1/comments'], function($router) {
    
 });
 
-$router->group(['prefix' => 'api/v1/notifications'], function($router) {
-    $router->get("/", "NotificationsController@list"); 
+$router->group(['prefix' => 'api/v1/users'], function($router) {
+    $router->get("/{id}/notifications", "NotificationsRestController@getNotificationByUserId"); 
 });
 
 

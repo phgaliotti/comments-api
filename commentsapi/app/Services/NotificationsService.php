@@ -19,8 +19,12 @@ class NotificationsService
         return $this->notificationRepository->new($notification); 
     }
 
-    public function getById($id) {
-        return $this->notificationRepository->getById($id);
+    public function getNotificationsByUserId($pageSize, $id) {
+        if (empty($pageSize)){
+            $pageSize = 10;
+        }
+
+        return $this->notificationRepository->getNotificationsByUserId($id, $pageSize);
     }
 
     public function notifyOwnerPosting($commentingUser, $posting){
@@ -41,8 +45,8 @@ class NotificationsService
         $nameCommentingUser = $commentingUser->name;
         $nameOwnerPosting = $posting->user->name;
         $mailOwonerPosting = $posting->user->email;
-        $to_user_id = $commentingUser->id;
-        $from_user_id = $posting->user->id;
+        $to_user_id = $posting->user->id; 
+        $from_user_id = $commentingUser->id;
         $body = "Hi," . $nameOwnerPosting . " the user ". $nameCommentingUser ." commented on your post " . $posting->title;
         
         Log::info("Notify :::: " . $body);
