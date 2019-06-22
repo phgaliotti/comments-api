@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Comment;
+
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Comment;
 
 class CommentRepository 
 {

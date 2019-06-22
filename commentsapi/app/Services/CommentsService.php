@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\CommentRepository;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 class CommentsService
 {
@@ -31,22 +29,11 @@ class CommentsService
         return $this->commentRepository->getLastMinuteCommentsByUserId($id);
     }
 
-    public function notifyOwnerPosting($commentingUser, $posting){
-        $data = $this->buildDataMail($commentingUser, $posting);
-        /*Mail::send($data->body, function($message, $data){
-            $message->to($data->mailOwonerPosting)
-                ->subject('You just received a comment! See now');
-            $message->from('do-notreply@gmail.com');
-        });*/
-    }
-
-    private function buildDataMail($commentingUser, $posting){
-        $nameCommentingUser = $commentingUser->name;
-        $nameOwnerPosting = $posting->user->name;
-        $mailOwonerPosting = $posting->user->email;
-        $body = "Hi," . $nameOwnerPosting . " the user ". $nameCommentingUser ." commented on your post " . $posting->title;
-        
-        Log::info("Notify :::: " . $body);
-        return array("mailOwonerPosting" => $mailOwonerPosting, "body" => $body);
+    public function userExceededCommentsNumberPerMinute($commentingUser){
+        $lastCommentsByUserId = $this->getLastMinuteCommentsByUserId($commentingUser->id);
+        if (count($lastCommentsByUserId) > 10) {
+            return true;
+        }
+        return false;
     }
 }

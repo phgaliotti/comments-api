@@ -5,27 +5,29 @@ namespace App\UseCases;
 use App\Services\CommentsService;
 use Illuminate\Support\Arr;
 use App\Services\PostingService;
-use Illuminate\Support\Facades\Log;
 use App\Services\UsersService;
+use App\Services\NotificationsService;
 
 class CreateCommentsUseCase
 {
     protected $commentsService;
     protected $postingService;
     protected $usersService;
+    protected $notificationsService;
 
-    public function __construct(CommentsService $commentsService, PostingService $postingService, UsersService $usersService)
+    public function __construct(CommentsService $commentsService, PostingService $postingService, UsersService $usersService, NotificationsService $notificationsService)
 	{
         $this->commentsService = $commentsService;
         $this->postingService = $postingService;
         $this->usersService = $usersService;
+        $this->notificationsService = $notificationsService;
     }
     
     public function execute($comment) {
         $user_id = Arr::get($comment, 'user_id');
         $commentingUser = $this->usersService->findById($user_id);
 
-        if ($this->userExceededCommentsNumberPerMinute($commentingUser)) {
+        if ($this->commentsService->userExceededCommentsNumberPerMinute($commentingUser)) {
             return response()->json(['msg' => 'Limite de comentários por minuto excedido. Por favor, tente novamente mais tarde'], 429);
         }
 
@@ -36,16 +38,11 @@ class CreateCommentsUseCase
         }
 
         $newComment = $this->commentsService->create($comment);
-        $this->commentsService->notifyOwnerPosting($commentingUser, $posting);
-        return response()->json($newComment, 201);
-    }
 
-    private function userExceededCommentsNumberPerMinute($commentingUser){
-        $lastCommentsByUserId = $this->commentsService->getLastMinuteCommentsByUserId($commentingUser->id);
-        if (count($lastCommentsByUserId) > 10) {
-            return true;
-        }
-        return false;
+        $this->notifyOwnerPosting($commentingUser, $posting);
+
+        return response()->json($newComment, 201);
+       
     }
 
     private function validateUserCanComment($commentingUser, $posting){
@@ -53,6 +50,10 @@ class CreateCommentsUseCase
             return true; 
         }
         return false;
+    }
+
+    private function notifyOwnerPosting($commentingUser, $posting){
+        $this->notificationsService->notifyOwnerPosting($commentingUser, $posting);
     }
 
     private function ownerPostingIsSubscriber($posting){

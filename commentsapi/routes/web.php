@@ -16,9 +16,14 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/v1/comments'], function($router) {
-    // commenting on a post
     $router->post("/", "CommentsRestController@create");
-    // get comments list
     $router->get('/', 'CommentsRestController@list');
+
+   
 });
+
+$router->group(['prefix' => 'api/v1/notifications'], function($router) {
+    $router->get("/", "NotificationsController@list"); 
+});
+
 
