@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Comment;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class CommentRepository 
@@ -26,7 +25,6 @@ class CommentRepository
 	
 	public function getLastMinuteCommentsByUserId ($id) {
 		$array = DB::select("select * from comments where TIMESTAMPDIFF(MINUTE, created_at, NOW()) <= 1 and user_id = '$id'");
-		Log::info("getLastMinuteCommentsByUserId -> " . count($array));
 		return $array;
 	}
 }
