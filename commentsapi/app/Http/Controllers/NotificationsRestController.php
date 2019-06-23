@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\UseCases\RetrieveNotificationsUseCase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class NotificationsRestController extends Controller
 {

@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\NotificationRepository;
 use Illuminate\Support\Arr;
-use App\Notification;
+use Carbon\Carbon;
 
 class NotificationsService
 {      
@@ -19,6 +19,10 @@ class NotificationsService
         return $this->notificationRepository->new($notification); 
     }
 
+    public function update($id, $notification){
+        return $this->notificationRepository->update($id, $notification);
+    }
+
     public function getNotificationsByUserId($pageSize, $id) {
         if (empty($pageSize)){
             $pageSize = 10;
@@ -27,13 +31,22 @@ class NotificationsService
         return $this->notificationRepository->getNotificationsByUserId($id, $pageSize);
     }
 
+    public function addExpirationDate($pendingNotifications){
+        $now = Carbon::now()->addMinute(60);
+        foreach ($pendingNotifications as $notification) {
+            if ($notification->expiration_date == null){
+                $this->update($notification->id, ['expiration_date' => $now]);
+            }
+        }
+        return $pendingNotifications;
+    }
+
     public function notifyOwnerPosting($commentingUser, $posting){
         $data = $this->buildDataMail($commentingUser, $posting);
         $notification = $this->convertToNotificationEntity($data);
 
         $this->create($notification);
         Log::info("salvo!");
-        
         /*Mail::send($data->body, function($message, $data){
             $message->to($data->mailOwonerPosting)
                 ->subject('You just received a comment! See now');

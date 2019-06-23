@@ -3,6 +3,7 @@
 namespace App\UseCases;
 
 use App\Services\NotificationsService;
+use Illuminate\Support\Arr;
 
 class RetrieveNotificationsUseCase
 {
@@ -14,6 +15,9 @@ class RetrieveNotificationsUseCase
     }
     
     public function execute($pageSize, $id) {
-        return response()->json(['data' => $this->notificationsService->getNotificationsByUserId($pageSize, $id)]);
+        $pendingNotifications = $this->notificationsService->getNotificationsByUserId($pageSize, $id);
+        $this->notificationsService->addExpirationDate($pendingNotifications);
+
+        return response()->json(['data' => $pendingNotifications]);
     }
 }
