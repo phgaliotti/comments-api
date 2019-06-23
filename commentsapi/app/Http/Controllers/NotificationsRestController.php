@@ -15,7 +15,7 @@ class NotificationsRestController extends Controller
         $this->retrieveNotificationsUseCase = $retrieveNotificationsUseCase;
     }
 
-    public function getNotificationByUserId(Request $request) {
+    public function getByUserId(Request $request) {
         $pageSize = $request->input('pageSize');
         $id = $request->route('id');
         return $this->retrieveNotificationsUseCase->execute($pageSize, $id);

@@ -17,11 +17,21 @@ class CommentsService
         return $this->commentRepository->new($comment); 
     }
 
+    public function findByIdPaged($pageSize, $id) {
+        if (empty($pageSize)){
+            $pageSize = 10;
+        }
+        return $this->commentRepository->findByIdPaged($pageSize, $id);
+    }
+
+    public function findById($id) {
+        return $this->commentRepository->findById($id);
+    }
+
     public function findAll($pageSize) {
         if (empty($pageSize)){
             $pageSize = 10;
         }
-        
         return $this->commentRepository->findAll($pageSize);
     }
 
@@ -29,11 +39,19 @@ class CommentsService
         return $this->commentRepository->getLastMinuteCommentsByUserId($id);
     }
 
-    public function userExceededCommentsNumberPerMinute($commentingUser){
+    public function userExceededCommentsNumberPerMinute($commentingUser) {
         $lastCommentsByUserId = $this->getLastMinuteCommentsByUserId($commentingUser->id);
         if (count($lastCommentsByUserId) > 10) {
             return true;
         }
         return false;
+    }
+
+    public function delete($id) {
+        return $this->commentRepository->delete($id);
+    }
+
+    public function deleteAllCommentsByUserId($userId, $postingId) {
+        return $this->commentRepository->deleteAllCommentsByUserId($userId, $postingId);
     }
 }

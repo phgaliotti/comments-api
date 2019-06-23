@@ -15,15 +15,15 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api/v1/comments'], function($router) {
-    $router->post("/", "CommentsRestController@create");
-    $router->get('/', 'CommentsRestController@list');
 
-   
+$router->group(['prefix' => 'api/v1/comments'], function($router) {
+    $router->get('/', 'CommentsRestController@list');
+    $router->post("/", "CommentsRestController@create");
 });
 
 $router->group(['prefix' => 'api/v1/users'], function($router) {
-    $router->get("/{id}/notifications", "NotificationsRestController@getNotificationByUserId"); 
+    $router->get("/{id}/comments", "CommentsRestController@getByUserId"); 
+    $router->get("/{id}/notifications", "NotificationsRestController@getByUserId"); 
+    $router->delete("/{userid}/coments/{id}", "CommentsRestController@delete");
+    $router->delete('/{owenerpostingid}/posting/{postid}/users/{userid}/comments', 'CommentsRestController@deleteUserComments');
 });
-
-

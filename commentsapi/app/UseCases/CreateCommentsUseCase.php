@@ -42,7 +42,6 @@ class CreateCommentsUseCase
         $this->notifyOwnerPosting($commentingUser, $posting);
 
         return response()->json($newComment, 201);
-       
     }
 
     private function validateUserCanComment($commentingUser, $posting){

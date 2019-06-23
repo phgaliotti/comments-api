@@ -3,7 +3,6 @@
 namespace App\UseCases;
 
 use App\Services\NotificationsService;
-use Illuminate\Support\Arr;
 
 class RetrieveNotificationsUseCase
 {

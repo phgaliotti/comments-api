@@ -25,7 +25,6 @@ class NotificationRepository
 
    public function update($id, $notification) {
       Notification::find($id)->update($notification);
-      //$this->notification->find($id)->update($notification);
    }
 
    public function getNotificationsByUserId($id, $pageSize) {
