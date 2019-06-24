@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 
-use Illuminate\Support\Facades\Log;
-use App\Notification;
+
 use Carbon\Carbon;
+use App\Models\Notification;
 
 class NotificationRepository 
 {

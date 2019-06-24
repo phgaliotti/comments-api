@@ -22,7 +22,7 @@ $router->group(['prefix' => 'api/v1/comments'], function($router) {
 });
 
 $router->group(['prefix' => 'api/v1/users'], function($router) {
-    $router->get("/{id}/comments", "CommentsRestController@getByUserId"); 
+    $router->get("/{userid}/comments", "CommentsRestController@getByUserId"); 
     $router->get("/{id}/notifications", "NotificationsRestController@getByUserId"); 
     $router->delete("/{userid}/coments/{id}", "CommentsRestController@delete");
     $router->delete('/{owenerpostingid}/posting/{postid}/users/{userid}/comments', 'CommentsRestController@deleteUserComments');

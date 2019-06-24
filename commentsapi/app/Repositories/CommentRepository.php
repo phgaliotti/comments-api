@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
-use App\Comment;
+use App\Models\Comment;
 
 class CommentRepository 
 {
@@ -18,8 +18,10 @@ class CommentRepository
        return $this->comment->create($comment);
 	}
 	
-	public function findByIdPaged($pageSize, $id){
-		return $this->comment->find($id)->paginate($pageSize);
+	public function findByUserIdPaged($pageSize, $user_id){
+		return $this->comment
+			->where('user_id', $user_id)
+			->paginate($pageSize);
 	}
 
 	public function findById($id){

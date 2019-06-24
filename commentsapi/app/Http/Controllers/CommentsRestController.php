@@ -38,8 +38,8 @@ class CommentsRestController extends Controller
 
     public function getByUserId(Request $request) {
         $pageSize = $request->input('pageSize');
-        $id = $request->route('id');
-        return $this->retrieveCommentsByUserIdUseCase->execute($pageSize, $id);
+        $user_id = $request->route('userid');
+        return $this->retrieveCommentsByUserIdUseCase->execute($pageSize, $user_id);
     }
 
     public function list(Request $request) {

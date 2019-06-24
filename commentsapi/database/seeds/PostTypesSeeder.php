@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\PostType;
+use App\Models\PostType;
 
 class PostTypesSeeder extends Seeder
 {

@@ -13,7 +13,7 @@ class RetrieveCommentsByUserIdUseCase
         $this->commentsService = $commentsService;
     }
     
-    public function execute($pageSize, $id) {
-        return response()->json(['data' => $this->commentsService->findByIdPaged($pageSize, $id)]);
+    public function execute($pageSize, $user_id) {
+        return response()->json(['data' => $this->commentsService->findByUserIdPaged($pageSize, $user_id)]);
     }
 }

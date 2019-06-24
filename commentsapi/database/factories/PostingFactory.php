@@ -4,8 +4,8 @@
 
 use App\Model;
 use Faker\Generator as Faker;
-use App\Posting;
-use App\PostType;
+use App\Models\Posting;
+use App\Models\PostType;
 
 $factory->define(Posting::class, function (Faker $faker) {
     $users = App\User::pluck('id')->toArray();

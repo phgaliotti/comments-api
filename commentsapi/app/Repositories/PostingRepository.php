@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Posting;
+use App\Models\Posting;
 
 class PostingRepository 
 {

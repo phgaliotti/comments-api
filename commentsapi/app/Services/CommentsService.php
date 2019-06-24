@@ -17,11 +17,11 @@ class CommentsService
         return $this->commentRepository->new($comment); 
     }
 
-    public function findByIdPaged($pageSize, $id) {
+    public function findByUserIdPaged($pageSize, $user_id) {
         if (empty($pageSize)){
             $pageSize = 10;
         }
-        return $this->commentRepository->findByIdPaged($pageSize, $id);
+        return $this->commentRepository->findByUserIdPaged($pageSize, $user_id);
     }
 
     public function findById($id) {
