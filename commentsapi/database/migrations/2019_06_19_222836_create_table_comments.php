@@ -21,6 +21,8 @@ class CreateTableComments extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('enable_highlight');
+            $table->integer('coins');
+            $table->dateTime("expiration_date")->nullable(false);
             $table->text('comment');
         });
     }

@@ -7,6 +7,9 @@ use Illuminate\Support\Arr;
 use App\Services\PostingService;
 use App\Services\UsersService;
 use App\Services\NotificationsService;
+use Carbon\Carbon;
+use App\Services\TransactionService;
+use Illuminate\Support\Facades\Log;
 
 class CreateCommentsUseCase
 {
@@ -14,13 +17,16 @@ class CreateCommentsUseCase
     protected $postingService;
     protected $usersService;
     protected $notificationsService;
+    protected $transactionService;
 
-    public function __construct(CommentsService $commentsService, PostingService $postingService, UsersService $usersService, NotificationsService $notificationsService)
+    public function __construct(CommentsService $commentsService, PostingService $postingService, 
+    UsersService $usersService, NotificationsService $notificationsService, TransactionService $transactionService)
 	{
         $this->commentsService = $commentsService;
         $this->postingService = $postingService;
         $this->usersService = $usersService;
         $this->notificationsService = $notificationsService;
+        $this->transactionService = $transactionService;
     }
     
     public function execute($comment) {
@@ -37,11 +43,40 @@ class CreateCommentsUseCase
             return response()->json(['msg' => 'Olá, ' . $commentingUser->name .', você precisa ser assinante para comentar nessa postagem'], 403);
         }
 
+        $coinsSent = Arr::get($comment, 'coins');
+        if (!empty($coinsSent)){
+            if ($coinsSent > $commentingUser->coins) {
+                return response()->json(['msg' => 'Olá, ' . $commentingUser->name .', você não tem saldo suficiente. Seu saldo atual é de ' .$commentingUser->coins], 403);
+            } else {
+                $comment = $this->enableHighlightComment($comment, $coinsSent);
+            }
+        }
+
         $newComment = $this->commentsService->create($comment);
 
+        $this->registerTransaction($newComment, $coinsSent);
+        $this->updateBalanceCoins($user_id, $coinsSent);
         $this->notifyOwnerPosting($commentingUser, $posting);
 
         return response()->json($newComment, 201);
+    }
+
+    private function registerTransaction($newComment, $coinsSent){
+        $this->transactionService->register($newComment);
+        $this->transactionService->registerRetainedValue($newComment, $coinsSent);
+    }
+
+    private function updateBalanceCoins($user_id, $coinsSent) {
+        $this->usersService->updateBalanceCoins($user_id, $coinsSent);
+    }
+
+    private function enableHighlightComment($comment, $coinsSent) {
+        $coinsWithRetainedValue = $this->transactionService->generateValueWithRetainedValue($coinsSent);
+        $comment['coins'] =  $coinsWithRetainedValue;
+        $comment['enable_highlight'] = true;
+        $comment['expiration_date'] = Carbon::now()->addMinute($coinsWithRetainedValue);
+        
+        return $comment;
     }
 
     private function validateUserCanComment($commentingUser, $posting){

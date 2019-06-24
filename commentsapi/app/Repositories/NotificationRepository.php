@@ -19,10 +19,6 @@ class NotificationRepository
       return $this->notification->create($notification);
    }
 
-   public function save($notification) {
-      return $this->notification->save($notification); 
-   }
-
    public function update($id, $notification) {
       Notification::find($id)->update($notification);
    }

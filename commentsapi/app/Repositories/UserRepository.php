@@ -16,5 +16,9 @@ class UserRepository
     public function findById($id) {
 		return $this->user->find($id);
 	}    
+
+	public function update($user_id, $transaction){
+		User::find($user_id)->update($transaction);
+	}
    
 }
