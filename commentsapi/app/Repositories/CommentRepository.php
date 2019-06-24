@@ -29,6 +29,8 @@ class CommentRepository
 	public function findAll($pageSize) {
 		return $this->comment
 			->join('users', 'comments.user_id', '=','users.id')
+			->orderBy('comments.expiration_date', 'desc')
+			->orderBy('comments.coins', 'desc')
 			->orderBy('comments.created_at', 'desc')
 			->select('comments.user_id', 'comments.id', 'users.email', 'users.subscriber', 'comments.enable_highlight', 'comments.created_at', 'comments.comment')
 			->paginate($pageSize);
