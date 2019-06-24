@@ -43,10 +43,12 @@ class CreateCommentsUseCase
             return response()->json(['msg' => 'Olá, ' . $commentingUser->name .', você precisa ser assinante para comentar nessa postagem'], 403);
         }
 
+        $comment = $this->setCommentExpirationDate($comment);
+
         $coinsSent = Arr::get($comment, 'coins');
         if (!empty($coinsSent)){
             if ($coinsSent > $commentingUser->coins) {
-                return response()->json(['msg' => 'Olá, ' . $commentingUser->name .', você não tem saldo suficiente. Seu saldo atual é de ' .$commentingUser->coins], 403);
+                return response()->json(['msg' => 'Olá, ' . $commentingUser->name .', você não tem saldo suficiente. Seu saldo atual é de ' .$commentingUser->coins . ' moedas'], 403);
             } else {
                 $comment = $this->enableHighlightComment($comment, $coinsSent);
             }
@@ -54,8 +56,11 @@ class CreateCommentsUseCase
 
         $newComment = $this->commentsService->create($comment);
 
-        $this->registerTransaction($newComment, $coinsSent);
-        $this->updateBalanceCoins($user_id, $coinsSent);
+        if ($newComment->enable_highlight == true){
+            $this->registerTransaction($newComment, $coinsSent);
+            $this->updateBalanceCoins($user_id, $coinsSent);
+        }
+
         $this->notifyOwnerPosting($commentingUser, $posting);
 
         return response()->json($newComment, 201);
@@ -92,5 +97,10 @@ class CreateCommentsUseCase
 
     private function ownerPostingIsSubscriber($posting){
         return $posting->user->subscriber;
+    }
+
+    private function setCommentExpirationDate($comment) {
+        $comment['expiration_date'] = Carbon::now();
+        return $comment;
     }
 }
