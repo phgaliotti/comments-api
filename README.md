@@ -3,7 +3,7 @@
 Essa aplicação consiste numa API de comentários em postagens. Os endpoints disponibilizados estão no padrão REST orientados a recursos.
 
 ## Tecnologias utilizadas:
-* Docker;
+* Docker
 * PHP v7.1
 * [Lumen-Laravel Framework](https://lumen.laravel.com).;
 * MySQL v5.7
@@ -52,5 +52,5 @@ php artisan db:seed
 
 Para utilizar as APIs **importe o arquivo comments_api.postman_collection.json** em seu [Postman](https://www.getpostman.com/);
 
-## Enjoy it :fa-thumbs-o-up:
+## Enjoy it :+1:
 
