@@ -52,5 +52,5 @@ php artisan db:seed
 
 Para utilizar as APIs **importe o arquivo comments_api.postman_collection.json** em seu [Postman](https://www.getpostman.com/);
 
-##Enjoy it  :fa-thumbs-o-up:
+## Enjoy it :fa-thumbs-o-up:
 
