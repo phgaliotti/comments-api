@@ -28,12 +28,17 @@ DB_PASSWORD=abc123
 docker exec -it esapiens-test-php-fpm bash
 ```
 
-* **Passo 3**: executar migrations para criação das tabelas:
+* **Passo 3**: instalar composer:
+```
+composer install
+```
+
+* **Passo 4**: executar migrations para criação das tabelas:
 ```
 php artisan migrate
 ```
 
-* **Passo 4**: para iniciar o BD com dados nas tabelas  **users** e **posting** execute (ainda dentro do container):
+* **Passo 5**: para iniciar o BD com dados nas tabelas  **users** e **posting** execute (ainda dentro do container):
 ```
 php artisan db:seed
 ```
