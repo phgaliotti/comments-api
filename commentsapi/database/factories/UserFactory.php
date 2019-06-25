@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use phpDocumentor\Reflection\Types\Integer;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,10 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
+        'email_verified_at' => Carbon::now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'subscriber' => $faker->boolean(),
-        'coins' => Integer::rand(100, 1000),
+        'coins' => $faker->numberBetween(100, 1000),
         'remember_token' => Str::random(10),
     ];
 });

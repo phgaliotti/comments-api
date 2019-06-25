@@ -8,7 +8,7 @@ use App\Models\Posting;
 use App\Models\PostType;
 
 $factory->define(Posting::class, function (Faker $faker) {
-    $users = App\User::pluck('id')->toArray();
+    $users = App\Models\User::pluck('id')->toArray();
     $postingTypes = PostType::pluck('id')->toArray();
 
     return [
