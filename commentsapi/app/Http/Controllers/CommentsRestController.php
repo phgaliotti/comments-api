@@ -9,6 +9,7 @@ use App\UseCases\RetrieveCommentsUseCase;
 use App\UseCases\RetrieveCommentsByUserIdUseCase;
 use App\UseCases\DeleteCommentsUseCase;
 use App\UseCases\DeleteAllCommentsByUserUseCase;
+use App\UseCases\RetrieveAllCommentsByPostingIdUseCase;
 
 class CommentsRestController extends Controller
 {
@@ -17,18 +18,21 @@ class CommentsRestController extends Controller
     protected $retrieveCommentsByUserIdUseCase;
     protected $deleteCommentsUseCase;
     protected $deleteAllCommentsByUserUseCase;
+    protected $retrieveAllCommentsByPostingIdUseCase;
 
     public function __construct(CreateCommentsUseCase $createCommentsUseCase, 
         RetrieveCommentsUseCase $retrieveCommentsUseCase, 
         RetrieveCommentsByUserIdUseCase $retrieveCommentsByUserIdUseCase, 
         DeleteCommentsUseCase $deleteCommentsUseCase,
-        DeleteAllCommentsByUserUseCase $deleteAllCommentsByUserUseCase) {
+        DeleteAllCommentsByUserUseCase $deleteAllCommentsByUserUseCase,
+        RetrieveAllCommentsByPostingIdUseCase $retrieveAllCommentsByPostingIdUseCase) {
 
         $this->createCommentsUseCase = $createCommentsUseCase;
         $this->retrieveCommentsUseCase = $retrieveCommentsUseCase;
         $this->retrieveCommentsByUserIdUseCase = $retrieveCommentsByUserIdUseCase;
         $this->deleteCommentsUseCase = $deleteCommentsUseCase;
         $this->deleteAllCommentsByUserUseCase = $deleteAllCommentsByUserUseCase;
+        $this->retrieveAllCommentsByPostingIdUseCase = $retrieveAllCommentsByPostingIdUseCase;
     }
 
     public function create(Request $request) {
@@ -48,6 +52,10 @@ class CommentsRestController extends Controller
 
     public function list(Request $request) {
         return response()->json(['data' => $this->retrieveCommentsUseCase->execute($request)]);
+    }
+
+    public function retrieveAllCommentsByPostingId(Request $request){
+        return $this->retrieveAllCommentsByPostingIdUseCase->execute($request);
     }
 
     public function delete (Request $request){

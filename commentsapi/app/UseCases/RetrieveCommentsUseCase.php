@@ -23,13 +23,12 @@ class RetrieveCommentsUseCase
     public function execute($request) {
         $pageSize = empty($request->input('pageSize')) ? RetrieveCommentsUseCase::DEFAULT_PAGE_SIZE : $request->input('pageSize');
         $currentPage = empty($request->input('page')) ? RetrieveCommentsUseCase::DEFAULT_CURRENT_PAGE : $request->input('page');
-        $key = $currentPage . '_' .$pageSize;
+        
+        $key = "RetrieveCommentsUseCase" . $currentPage . '_' .$pageSize;
 
         if ($this->cacheService->hasKey($key)) {
-            Log::info("Recuperando comentários do Cache");
             return $this->cacheService->get($key);
         } else {
-            Log::info("Recuperando comentários do BD");
             $comments = $this->commentsService->findAll($pageSize);
             $cacheExpireTimeInMinutes = 120;
             $this->cacheService->add($key, $comments, $cacheExpireTimeInMinutes);

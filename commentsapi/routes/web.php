@@ -21,6 +21,10 @@ $router->group(['prefix' => 'api/v1/comments'], function($router) {
     $router->post("/", "CommentsRestController@create");
 });
 
+$router->group(['prefix' => 'api/v1/posting'], function($router) {
+    $router->get("/{postingid}/comments", "CommentsRestController@retrieveAllCommentsByPostingId"); 
+});
+
 $router->group(['prefix' => 'api/v1/users'], function($router) {
     $router->get("/{userid}/comments", "CommentsRestController@getByUserId"); 
     $router->get("/{id}/notifications", "NotificationsRestController@getByUserId"); 

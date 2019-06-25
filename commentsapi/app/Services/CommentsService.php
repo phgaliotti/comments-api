@@ -28,6 +28,10 @@ class CommentsService
         return $this->commentRepository->findById($id);
     }
 
+    public function findAllCommentsByPostingId($postingid, $pageSize){
+        return $this->commentRepository->findAllCommentsByPostingId($postingid, $this->getPageSize($pageSize));
+    }
+
     public function findAll($pageSize) {
         return $this->commentRepository->findAll($this->getPageSize($pageSize));
     }
