@@ -5,7 +5,7 @@ Esta aplicação consiste numa API de comentários em postagens. Os endpoints di
 ## Tecnologias utilizadas:
 * Docker
 * PHP v7.1
-* [Lumen-Laravel Framework](https://lumen.laravel.com).;
+* [Lumen-Laravel Framework v5.8](https://lumen.laravel.com).;
 * MySQL v5.7
 
 ## Dados de acesso para o banco de dados:
