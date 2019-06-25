@@ -18,10 +18,6 @@ services:
       ports:
         - "3306:3306"
 
-    redis:
-      image: redis:alpine
-      container_name: esapiens-test-redis
-
     webserver:
       image: nginx:alpine
       container_name: esapiens-test-webserver
