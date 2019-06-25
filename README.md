@@ -50,7 +50,7 @@ php artisan db:seed
 
 # Endpoints disponiveis
 
-Para utilizar as APIs **importe o arquivo comments_api.postman_collection.json** em seu [Postman](https://www.getpostman.com/);
+Para utilizar as APIs **importe o arquivo "comments_api.postman_collection.json"** em seu [Postman](https://www.getpostman.com/);
 
 ## Enjoy it :+1:
 
