@@ -12,7 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return "Bem vindo a API de comentários do Phelipe Galiotti! </br>" . $router->app->version();
 });
 
 
