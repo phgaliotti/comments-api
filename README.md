@@ -18,26 +18,22 @@ DB_PASSWORD=abc123
 ```
 
 ## Como executar o projeto:
-* **Passo 1**
-Na pasta onde está localizado o arquivo **docker-compose.yml** execute:
+* **Passo 1**: na pasta onde está localizado o arquivo **docker-compose.yml** execute:
 ```
  docker-compose up -d
 ```
 
-* **Passo 2**
-Acessar o container PHP:
+* **Passo 2**: acessar o container PHP:
 ```
 docker exec -it esapiens-test-php-fpm bash
 ```
 
-* **Passo 3**
-Executar migrations para criação das tabelas:
+* **Passo 3**: executar migrations para criação das tabelas:
 ```
 php artisan migrate
 ```
 
-* **Passo 4**
-Para iniciar o BD com dados nas tabelas  **users** e **posting** execute (ainda dentro do container):
+* **Passo 4**: para iniciar o BD com dados nas tabelas  **users** e **posting** execute (ainda dentro do container):
 ```
 php artisan db:seed
 ```
