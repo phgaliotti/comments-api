@@ -32,19 +32,22 @@ class CommentsRestController extends Controller
     }
 
     public function create(Request $request) {
-        $commentData = $request->all();
-        return $this->createCommentsUseCase->execute($commentData);
+        $this->validate($request, [
+            'posting_id' => 'required',
+            'user_id' => 'required',
+            'comment' => 'required'
+        ]);
+
+        $comment = $request->all();
+        return $this->createCommentsUseCase->execute($comment);
     }
 
     public function getByUserId(Request $request) {
-        $pageSize = $request->input('pageSize');
-        $user_id = $request->route('userid');
-        return $this->retrieveCommentsByUserIdUseCase->execute($pageSize, $user_id);
+        return response()->json(['data' => $this->retrieveCommentsByUserIdUseCase->execute($request)]);
     }
 
     public function list(Request $request) {
-        $pageSize = $request->input('pageSize');
-        return $this->retrieveCommentsUseCase->execute($pageSize);
+        return response()->json(['data' => $this->retrieveCommentsUseCase->execute($request)]);
     }
 
     public function delete (Request $request){

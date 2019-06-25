@@ -6,8 +6,11 @@ use App\Repositories\CommentRepository;
 
 class CommentsService
 {
-    
+    const DEFAULT_PAGE_SIZE = 10;
+    const DEFAULT_CURRENT_PAGE = 0;
+
     protected $commentRepository;
+
     public function __construct(CommentRepository $commentRepository)
 	{
         $this->commentRepository = $commentRepository;
@@ -18,10 +21,7 @@ class CommentsService
     }
 
     public function findByUserIdPaged($pageSize, $user_id) {
-        if (empty($pageSize)){
-            $pageSize = 10;
-        }
-        return $this->commentRepository->findByUserIdPaged($pageSize, $user_id);
+        return $this->commentRepository->findByUserIdPaged($this->getPageSize($pageSize), $user_id);
     }
 
     public function findById($id) {
@@ -29,10 +29,7 @@ class CommentsService
     }
 
     public function findAll($pageSize) {
-        if (empty($pageSize)){
-            $pageSize = 10;
-        }
-        return $this->commentRepository->findAll($pageSize);
+        return $this->commentRepository->findAll($this->getPageSize($pageSize));
     }
 
     public function getLastMinuteCommentsByUserId($id) {
@@ -53,5 +50,9 @@ class CommentsService
 
     public function deleteAllCommentsByUserId($userId, $postingId) {
         return $this->commentRepository->deleteAllCommentsByUserId($userId, $postingId);
+    }
+
+    private function getPageSize($pageSize){
+        return empty($pageSize) ? CommentsService::DEFAULT_PAGE_SIZE : $pageSize;
     }
 }

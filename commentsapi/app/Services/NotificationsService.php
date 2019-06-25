@@ -46,7 +46,6 @@ class NotificationsService
         $notification = $this->convertToNotificationEntity($data);
 
         $this->create($notification);
-        Log::info("salvo!");
         /*Mail::send($data->body, function($message, $data){
             $message->to($data->mailOwonerPosting)
                 ->subject('You just received a comment! See now');

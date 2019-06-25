@@ -10,6 +10,7 @@ use App\Services\NotificationsService;
 use Carbon\Carbon;
 use App\Services\TransactionService;
 use Illuminate\Support\Facades\Log;
+use App\Services\CacheService;
 
 class CreateCommentsUseCase
 {
@@ -18,15 +19,17 @@ class CreateCommentsUseCase
     protected $usersService;
     protected $notificationsService;
     protected $transactionService;
+    protected $cacheService;
 
     public function __construct(CommentsService $commentsService, PostingService $postingService, 
-    UsersService $usersService, NotificationsService $notificationsService, TransactionService $transactionService)
+        UsersService $usersService, NotificationsService $notificationsService, TransactionService $transactionService, CacheService $cacheService)
 	{
         $this->commentsService = $commentsService;
         $this->postingService = $postingService;
         $this->usersService = $usersService;
         $this->notificationsService = $notificationsService;
         $this->transactionService = $transactionService;
+        $this->cacheService = $cacheService;
     }
     
     public function execute($comment) {
@@ -55,6 +58,7 @@ class CreateCommentsUseCase
         }
 
         $newComment = $this->commentsService->create($comment);
+        $this->cacheService->invalid();
 
         if ($newComment->enable_highlight == true){
             $this->registerTransaction($newComment, $coinsSent);
@@ -62,7 +66,6 @@ class CreateCommentsUseCase
         }
 
         $this->notifyOwnerPosting($commentingUser, $posting);
-
         return response()->json($newComment, 201);
     }
 
